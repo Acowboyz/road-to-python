@@ -4,7 +4,7 @@ from time import sleep
 
 def dealWithClient(newSocket, destAddr):
     while True:
-        recvData = newSocket.rec(1024)
+        recvData = newSocket.recv(1024)
         if len(recvData) > 0:
             print("recv[%s]:%s"%(str(destAddr), recvData))
         else:
