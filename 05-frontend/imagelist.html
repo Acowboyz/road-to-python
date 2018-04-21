@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>imagelist</title>
+    <style type="text/css">
+        body, ul, h3 {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .clearfix:before,.clearfix:after{
+            content: '';
+            display: table;
+        }
+
+        .clearfix:after{
+            clear: both;
+        }
+
+        /* for ie*/
+        .clearfix{
+            zoom: 1;
+        }
+
+        .image_list{
+            width: 958px;
+            /*height: 290px;*/
+            border: 1px solid #dddddd;
+            margin: 50px auto 0;
+            font-size: 0px;
+            overflow: hidden;
+        }
+        .image_list h3{
+            height: 50px;
+            width: 918px;
+            border-bottom: 1px solid #dddddd;
+            margin: 0px auto;
+        }
+
+        .image_list h3 span{
+            display: inline-block;
+            height: 50px;
+            border-bottom: 2px solid red;
+            font: 18px/50px 'Microsoft Yahei';
+            color: #000;
+            padding:0 15px;
+            position: relative;
+        }
+
+        .image_list ul{
+            width: 950px;
+            list-style: none;
+            margin: 20px 0px 13px 20px;
+        }
+
+        .image_list ul li{
+            float: left;
+            width: 160px;
+            height: 68px;
+            margin: 0px 29px 25px 0px;
+
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="image_list clearfix">
+        <h3><span>圖片列表</span></h3>
+        <ul class="clearfix">
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+            <li><a href=""><img src="images/goods.jpg" alt="商品圖片"></a></li>
+        </ul>
+    </div>
+
+</body>
+</html>
