@@ -1,0 +1,49 @@
+
+body, ul, p, h1, h2, h3,h4, h5, h6, dl, dd, input, select, form{
+    margin: 0;
+    padding: 0;
+}
+
+/* let h inherit the font size of body*/
+h1, h2, h3,h4, h5, h6{
+    font-style: 100%;
+}
+
+ul{
+    list-style: none;
+}
+
+em{
+    font-style: normal;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* clear the border for IE*/
+img{
+    border: none;
+}
+
+/* clear the margin-top collapse and float*/
+.clearfix:before, clearfix:after{
+    content: '';
+    display: table;
+}
+
+.clearfix:after{
+    clear:both;
+}
+
+.clearfix{
+    zoom: 1;
+}
+
+.fl{
+    float: left;
+}
+
+.fr{
+    float: right;
+}
