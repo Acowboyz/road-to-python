@@ -1,0 +1,238 @@
+body{
+    font-family: 'Microsoft Yahei';
+}
+
+.main_wrap{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    /*background-color: gold;*/
+}
+
+.header{
+    position: relative;
+    height: 2.5rem;
+    background-color: #37ab40;
+}
+
+.header .logo{
+    width: 4.45rem;
+    height: 1.8rem;
+    display: block;
+    margin: 0.35rem auto 0;
+}
+
+.header .logo img{
+    width: 100%;
+}
+
+.header .search{
+    position: absolute;
+    height: 1.35rem;
+    width: 1.35rem;
+    right: 0.75rem;
+    top: 0.625rem;
+    background: url("../images/icons.png") left top no-repeat;
+    -webkit-background-size: 3rem 42rem;
+    background-size: 3rem 42rem;
+}
+
+.center_wrap{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 2.5rem;
+    bottom: 2.5rem;
+    background-color: #efefef;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.slide img{
+    width: 100%;
+}
+
+.menu_con{
+    height: 9.25rem;
+    background-color: #ffffff;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.menu{
+    width: 19rem;
+    height: 8.1rem;
+    margin: 0.7rem 0 0 1.375rem;
+}
+
+.menu li{
+    width: 2.8rem;
+    height: 4.1rem;
+    float: left;
+    margin-right: 1.625rem;
+}
+
+.menu li a{
+    display: block;
+    width: 2.8rem;
+    height: 2.8rem;
+    background: url("../images/icons.png") left -3rem no-repeat;
+    -webkit-background-size: 3rem 42rem;
+    background-size: 3rem 42rem;
+    margin: 0 auto;
+}
+
+.menu li h2{
+    height: 1.3rem;
+    font: bold 13px/1.3rem 'Microsoft Yahei';
+    text-align: center;
+    color: #666666;
+}
+
+.menu li:nth-child(2) a{
+    background-position: left -6rem;
+}
+
+.menu li:nth-child(3) a{
+    background-position: left -9rem;
+}
+
+.menu li:nth-child(4) a{
+    background-position: left -12rem;
+}
+
+.menu li:nth-child(5) a{
+    background-position: left -15rem;
+}
+.menu li:nth-child(6) a{
+    background-position: left -18rem;
+}
+.menu li:nth-child(7) a{
+    background-position: left -21rem;
+}
+.menu li:nth-child(8) a{
+    background-position: left -24rem;
+}
+
+.common_model{
+    background-color: #ffffff;
+    margin: 0.5rem 0;
+}
+
+.common_title{
+    width: 17.75rem;
+    height: 0.9rem;
+    margin: 0.8rem auto 0;
+}
+
+.common_title h3{
+    border-left: 0.25rem solid #fbc83d;
+    font: bold 15px/0.9rem 'Microsoft Yahei';
+    color: #fbc83d;
+    text-indent: 0.4rem;
+}
+
+.common_title a{
+    font: 12px/0.9rem 'Microsoft Yahei';
+    color: #7f7f7f;
+}
+
+.banner{
+    width: 17.75rem;
+    height: 4.5rem;
+    margin: 0.5rem auto 0;
+}
+
+.banner img{
+    width: 100%;
+}
+
+.goods_list{
+    width: 17.75rem;
+    height: 9.35rem;
+    margin: 0.5rem auto 0.7rem;
+}
+
+.goods_list li{
+    position: relative;
+    float: left;
+    width: 5.8rem;
+    height: 9.35rem;
+    border-right: 1px solid #e7e7e7;
+}
+
+.goods_list li:last-child{
+    border-right: 0px;
+}
+
+.goods_list li .goods_pic{
+    display: block;
+    width: 4.5rem;
+    height: 4.5rem;
+    margin: 0.5rem auto 0;
+}
+
+.goods_list li .goods_pic img{
+    width: 100%;
+}
+
+.goods_list li .goods_name{
+    width: 5rem;
+    overflow: hidden;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+
+    font: 15px/15px 'Microsoft Yahei';
+    color: #666666;
+    margin: 0.75rem auto 0;
+}
+
+.goods_list li  .goods_unit{
+    width: 5rem;
+    font: 12px/12px 'Microsoft Yahei';
+    color: #bbbbbb;
+    margin: 0.8rem auto 0;
+}
+
+.goods_list li .goods_price{
+    width: 5rem;
+    font: 12px/12px 'Microsoft Yahei';
+    color: #ff4400;
+    margin: 0.5rem auto 0;
+}
+
+.goods_list li .add_cart{
+    position: absolute;
+    right: 0.675rem;
+    bottom: 0;
+    width: 1.7rem;
+    height: 1.7rem;
+    background: url("../images/icons.png") left -27rem no-repeat;
+    -webkit-background-size: 3rem 42rem;
+    background-size: 3rem 42rem;
+}
+
+@media (min-width:380px) {
+
+    .goods_list li .goods_price{
+        font: 14px/14px 'Microsoft Yahei';
+    }
+
+    .goods_list li .goods_unit{
+        font: 14px/14px 'Microsoft Yahei';
+    }
+}
+
+.footer{
+    position: absolute;
+    /*width: 100%;*/
+    height: 2.5rem;
+    background-color: #ffffff;
+    /*background-color: gold;*/
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
