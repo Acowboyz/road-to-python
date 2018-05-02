@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todolist</title>
+    <style type="text/css">
+        .list_con{
+            width:400px;
+            margin:50px auto 0;
+        }
+
+        .inputtxt{
+            width:350px;
+            height:30px;
+            border:1px solid #ccc;
+            padding:0px;
+            text-indent:10px;
+
+        }
+
+        .inputbtn{
+            width:40px;
+            height:32px;
+            padding:0px;
+            border:1px solid #ccc;
+        }
+
+        .list{
+            margin:0;
+            padding:0;
+            list-style:none;
+            margin-top:20px;
+        }
+
+        .list li{
+            height:30px;
+            line-height:30px;
+            border-bottom:1px solid #ccc;
+        }
+
+        .list li span{
+            float:left;
+        }
+
+        .list li a{
+            float:right;
+            text-decoration:none;
+            margin:0 10px;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('#btn1').click(function () {
+
+                var txt1 = $('#txt1').val();
+                $('#txt1').val('');
+                if (txt1 == ''){
+                    alert('please input something');
+                    return
+                }
+
+                $todoli = $('<li><span>' + txt1 + '</span><a href="javascript:;" class="up"> ↑ </a><a href="javascript:;" class="down"> ↓ </a><a href="javascript:;" class="del">Delete</a></li>');
+                $('#list').append($todoli);
+            });
+
+            $('#list').delegate('a','click',function () {
+
+                var handler = $(this).attr('class');
+
+                if (handler == 'del'){
+                    $(this).parent().remove();
+                }
+
+                if (handler == 'up'){
+                    if ($(this).parent().prev().length == 0){
+                        alert('the item is on the top list');
+                        return
+                    }
+
+                    $(this).parent().prev().before($(this).parent());
+                }
+
+                if (handler == 'down'){
+                    if ($(this).parent().next().length == 0){
+                        alert('the item is on the bottom list');
+                        return
+                    }
+
+                    $(this).parent().next().after($(this).parent());
+                }
+            });
+
+
+        });
+
+    </script>
+</head>
+<body>
+
+<div class="list_con">
+    <h2>To do list</h2>
+    <input type="text" name="" id="txt1" class="inputtxt">
+    <input type="button" name="" value="Add" id="btn1" class="inputbtn">
+
+    <ul id="list" class="list">
+
+        <li><span>learn html</span><a href="javascript:;" class="up"> ↑ </a><a href="javascript:;" class="down"> ↓ </a><a href="javascript:;" class="del">Delete</a></li>
+        <li><span>learn css</span><a href="javascript:;" class="up"> ↑ </a><a href="javascript:;" class="down"> ↓ </a><a href="javascript:;" class="del">Delete</a></li>
+        <li><span>learn javascript</span><a href="javascript:;" class="up"> ↑ </a><a href="javascript:;" class="down"> ↓ </a><a href="javascript:;" class="del">Delete</a></li>
+
+    </ul>
+
+</div>
+</body>
+</html>
