@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{t1}}
+<hr>
+
+{{t1|safe}}
+<hr>
+{% autoescape off %}
+
+{{t1}}
+{% endautoescape %}
+<hr>
+{{ t2|default:'<h2>abc</h2>' }}
+</body>
+</html>

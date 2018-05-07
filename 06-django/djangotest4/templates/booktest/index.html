@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{% url 'booktest:show' 123 456 %}">Show</a>
+<!--{{hero.showname}}-->
+<hr>
+<ul>
+{% for hero in list %}
+    {% if forloop.counter|divisibleby:2 %}
+        <li>{{ forloop.counter }}:{{ hero.showname }}</li>
+    {% else %}
+        <!--<li>{{ forloop.counter }}:{{ hero.showname }}</li>-->
+    {% endif %}
+{% empty %}
+    <li>empty</li>
+{% endfor %}
+</ul>
+</body>
+</html>
