@@ -27,7 +27,7 @@ class Mysqlencap(object):
         except Exception as e:
             raise Exception(str(e))
 
-    def search(self, sql, params=[]):
+    def searchall(self, sql, params=[]):
         try:
             self.open()
             self.cursor.execute(sql, params)
@@ -35,7 +35,21 @@ class Mysqlencap(object):
             self.close()
 
             return result
+
         except Exception as e:
             raise Exception(str(e))
+
+    def searchone(self, sql, params=[]):
+        try:
+            self.open()
+            self.cursor.execute(sql, params)
+            result = self.cursor.fetchone()
+            self.close()
+
+            return result
+
+        except Exception as e:
+            raise Exception(str(e))
+
 
 
