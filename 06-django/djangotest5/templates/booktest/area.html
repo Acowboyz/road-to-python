@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/static/booktest/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.get('/area/0/',function (data) {
+                $pro =$('#pro');
+                $.each(data.data, function (index, item) {
+                    $pro.append('<option value="'+ item.id + '">' + item.title + '</option>');
+                });
+            });
+
+            $('#pro').change(function () {
+                $thisval = $(this).val();
+                $city = $('#city');
+                $dis = $('#dis');
+                $city.empty().append('<option value="">choose city</option>');
+                $dis.empty().append('<option value="">choose distinct</option>');
+                $.get('/area/' + $thisval + '/', function (data) {
+                    $.each(data.data, function (index, item) {
+                        $city.append('<option value="'+ item.id + '">' + item.title + '</option>');
+                    });
+
+                });
+            });
+
+            $('#city').change(function () {
+                $thisval = $(this).val();
+                $dis = $('#dis');
+                $dis.empty().append('<option value="">choose distinct</option>');
+                $.get('/area/' + $thisval + '/', function (data) {
+                    $.each(data.data, function (index, item) {
+                        $dis.append('<option value="'+ item.id + '">' + item.title + '</option>');
+                    });
+
+                });
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+<select id="pro">
+    <option value="">choose province</option>
+</select>
+<select id="city">
+    <option value="">choose city</option>
+</select>
+<select id="dis">
+    <option value="">choose distinct</option>
+</select>
+</body>
+</html>
