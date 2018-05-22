@@ -1,1 +1,1 @@
-# Road to Python
+# Note for python basic
