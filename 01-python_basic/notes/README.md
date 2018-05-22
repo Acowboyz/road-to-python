@@ -2,8 +2,8 @@
 <br>
 
 ## 目錄
-* **[初遇 Python](#初遇-Python)** 
-    * [Hello Python](#Hello-Python)
+* **[初遇 Python](#初遇-python)** 
+    * [Hello Python](#hello-python)
     * [變量與類型](#變量與類型)
     * [命名規則與關鍵字](#命名規則與關鍵字)
     * [輸出](#輸出)
