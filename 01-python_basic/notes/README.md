@@ -8,6 +8,11 @@
     * [命名規則與關鍵字](#命名規則與關鍵字)
     * [輸出](#輸出)
     * [輸入](#輸入)
+    * [運算符號](#運算符號)
+    * [數據類型的轉換](#數據類型的轉換)
+    * [比較運算符號](#比較運算符號)
+* **[判斷與循環](#判斷與循環)**
+    *
 
 <br><br>
 ## 初遇 Python
@@ -80,11 +85,10 @@ Python 有一些具有特殊功能的關鍵字，不允許開發者重複定義�
 
 查看關鍵字
 
-```
+```python
 Python 3.5.4 |Anaconda custom (64-bit)| (default, Nov 20 2017, 18:44:38) 
 [GCC 7.2.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> impot keyword
 >>> import keyword
 >>> keyword.kwlist
 ['False', 'None', 'True', 'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 
@@ -135,7 +139,7 @@ General format. For a given precision p >= 1, this rounds the number to p signif
 result in either fixed-point format or in scientific notation, depending on its magnitude.
 ```
 
-```
+```python
 >>> "%.3e" % 123
 '1.230e+02'
 >>> "%.3g" % 123
@@ -149,3 +153,144 @@ result in either fixed-point format or in scientific notation, depending on its 
 <br><br>
 
 ### 輸入
+
+運用函數 `input()` 來實現輸入數據，輸入的數據皆為 `str` 類型
+
+```python
+>>> a = input()
+123
+>>> type(a)
+<class 'str'>
+```
+
+<br><br>
+
+### 運算符號
+<br>
+
+算術運算符號
+
+| 符號   | 意義 
+| :---: | :---:  
+| +     | 加
+| -     | 剪
+| *     | 乘
+| /     | 除
+| //    | 除後取商
+| %     | 除後取餘 
+| **    | 次方
+
+```python
+>>> a = 5
+>>> b = 2
+>>> a + b
+7
+>>> a - b
+3
+>>> a * b
+10
+>>> a / b
+2.5
+>>> a // b
+2
+>>> a % b
+1
+>>> a ** b
+25
+```
+
+覆值運算符號
+
+| 符號   | 意義 
+| :---: | :---:  
+| =     | 將覆值符號右邊結果給左邊的變量
+
+```python
+>>> a, b = 1, 2
+>>> a
+1
+>>> b
+2
+```
+
+複合覆值運算符號
+
+| 符號   | 意義 
+| :---: | :---:  
+| +=     | a += b 等效 a = a + b
+| -=     | a -= b 等效 a = a - b
+| *=     | ---
+| /=     | ---
+| //=    | ---
+| %=     | ---
+| **=    | ---
+
+<br><br>
+
+### 數據類型的轉換
+<br>
+
+常用的數據類型轉換函數
+
+| 函數   | 意義 
+| :---: | :---:  
+| int(x, base)          | 以底為 base 轉換 x 為十進位
+| float(x)              | 轉換為浮點數
+| complex(real, imag)   | 創建複數
+| str(x)                | 轉換為字符串
+| eval(string)          | 用來計算字符串中有效的表達式
+| tuple(s)              | 轉換為元組
+| list(s)               | 轉換為列表
+| hex(x)                | 轉換為十六進制字符串
+
+```python
+>>> int('11', 16)
+17
+>>> float(10)
+10.0
+>>> complex(1,1)
+(1+1j)
+>>> str(10)
+'10'
+>>> eval('1 + 1')
+2
+>>> tuple({1,2})
+(1, 2)
+>>> list('123')
+['1', '2', '3']
+>>> hex(11)
+'0xb'
+```
+
+<br><br>
+
+### 比較運算符號
+<br>
+
+Python 中的比較運算符號
+
+| 符號   | 意義 
+| :---: | :---:  
+| ==     | 等於
+| !=     | 不等於 (較常用)
+| <>     | 不等於
+| >      | 大於
+| <      | 小於
+| >=     | 大於或等於
+| <=     | 小於或等於
+
+Python 中的邏輯運算符號
+
+| 符號   | 意義 
+| :---: | :---:  
+| and    | True if both the operands are true
+| or     | True if either of the operands is true
+| not    | True if operand is false
+
+> [更多的相關運算符號](https://www.programiz.com/python-programming/operators) :arrow_left:
+
+<br><br>
+
+## 判斷與循環
+
+
