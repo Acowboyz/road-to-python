@@ -12,7 +12,12 @@
     * [數據類型的轉換](#數據類型的轉換)
     * [比較運算符號](#比較運算符號)
 * **[判斷與循環](#判斷與循環)**
-    *
+    * [if-else-elif](#if-else-elif)
+    * [while](#while)
+    * [for](#for)
+    * [break & continue](#break-&-continue)
+* **[字串、列表、元組、字典](#字串、列表、元組、字典)**
+    * 字串
 
 <br><br>
 ## 初遇 Python
@@ -287,10 +292,91 @@ Python 中的邏輯運算符號
 | or     | True if either of the operands is true
 | not    | True if operand is false
 
-> [更多的相關運算符號](https://www.programiz.com/python-programming/operators) :arrow_left:
+> Hint: [更多的相關運算符號](https://www.programiz.com/python-programming/operators)
 
 <br><br>
 
 ## 判斷與循環
+<br><br>
+
+### if-else-elif
+<br>
+
+1. 當需要滿足某些條件 **A** 時，需要使用 `if`
+2. 當滿足條件 **A** ，不滿足時需要執行其他事件時，需要使用 `else`
+3. 當滿足條件 **A** 執行事件一， 滿足條件 **B** 執行事件二 ...，需要使用 `elif`
+
+```
+if test expression:
+    Body of if
+elif test expression:
+    Body of elif
+else: 
+    Body of else
+```
+
+
+<br><br>
+
+### while
+<br>
+
+```
+while test_expression:
+    Body of while
+else:
+    Run when the condition is False
+```
+
+[練習 : 印出三角形](../while/print_triangle.py)
+
+```
+*
+**
+***
+****
+*****
+```
+
+[練習 : 印出九九乘法表](../while/print_9x9.py)
+
+```
+1*1=1  
+1*2=2  2*2=4  
+1*3=3  2*3=6  3*3=9  
+1*4=4  2*4=8  3*4=12 4*4=16 
+1*5=5  2*5=10 3*5=15 4*5=20 5*5=25 
+1*6=6  2*6=12 3*6=18 4*6=24 5*6=30 6*6=36 
+1*7=7  2*7=14 3*7=21 4*7=28 5*7=35 6*7=42 7*7=49 
+1*8=8  2*8=16 3*8=24 4*8=32 5*8=40 6*8=48 7*8=56 8*8=64 
+1*9=9  2*9=18 3*9=27 4*9=36 5*9=45 6*9=54 7*9=63 8*9=72 9*9=81  
+```
+
+<br><br>
+
+### for
+<br>
+
+```
+for val in sequence:
+	Body of for
+else:
+    Run if the items in the sequence used in for loop exhausts
+```
+
+<br><br>
+### break & continue
+<br>
+
+#### break
+用來結束整個循環
+
+#### continue
+用來結束此次循環，並執行下一次的循環
+
+<br><br>
+
+## 字串、列表、元組、字典
+
 
 
