@@ -16,8 +16,9 @@
     * [while](#while)
     * [for](#for)
     * [break & continue](#break-&-continue)
-* **[字串、列表、元組、字典](#字串、列表、元組、字典)**
-    * 字串
+* **[資料類型](#資料類型)**
+    * [字串](#字串)
+    * [列表](#列表) 
 
 <br><br>
 ## 初遇 Python
@@ -376,7 +377,312 @@ else:
 
 <br><br>
 
-## 字串、列表、元組、字典
+## 資料類型
+<br><br>
+
+### 字串
+<br>
+
+#### 介紹
+
+可以用一個變量來存儲字串
+
+```python
+s = "hello python"
+```
+
+<br>
+
+#### 輸出
+
+```python
+name = 'felix'
+position = "Engineer"
+introduction = """ Hello Everyone!
+I am a newbie to this company.
+Happy to join this team."""
+
+print("name:%s"%name)
+print("position:%s"%position)
+print("introduction:%s"%introduction)
+```
+
+```
+name:felix
+position:Engineer
+introduction: Hello Everyone!
+I am a newbie to this company.
+Happy to join this team.
+```
+
+<br>
+
+#### 輸入
+
+```python
+username = input('please input the name:')
+print("username is %s" %username)
+```
+
+```
+please input the name:Felix
+username is Felix
+```
+
+<br>
+
+#### 索引
+
+用索引取出部份字串
+
+```python
+>>> name = 'abcdef'
+>>> name[1]
+'b'
+```
+
+如果索引超過字串長度會產生 `IndexError`
+
+```python
+>>> name = 'abcdef'
+>>> name[7]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: string index out of range
+```
+
+如果索引值不為整數會產生 `TypeError`
+
+```python
+>>> name = 'abcdef'
+>>> name[2.5]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: string indices must be integers
+```
+
+<br>
+
+#### Slice
+
+Slice 是指對操作的對象擷取其中一部份， string 、 list 、 tuple 都支援此用法
+
+> Slice 語法 : \[起始:結束:步長\]
+
+[練習 : 反轉字串](../string/str_manipulation.py)
+
+<br>
+
+#### 常見操作
+
+find
+
+```python
+s.find(str, start=0, end=len(mystr))
+```
+
+```python
+# if found, return the index
+>>> s = 'hello python world!'
+>>> s.find('python')
+6
+# if not found, return -1
+>>> s.find('python',0 ,5)
+-1
+```
+
+rfind
+
+與 `find` 相同，但是從右邊開始找
+
+```python
+s.rfind(str, start=0, end=len(mystr))
+```
 
 
+index
+
+與 `find` 相同，但在沒找到時返回 `ValueError`
+
+```python
+s.index(str, start=0, end=len(mystr))
+```
+
+```python
+>>> s = 'hello python world!'
+>>> s.index('python')
+6
+>>> s.index('python',0, 5)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: substring not found
+```
+
+rindex
+
+與 `index` 相同，但是從右邊開始找
+
+```python
+s.rindex(str, start=0, end=len(mystr))
+```
+
+count
+
+返回要搜尋字串出現的次數
+
+```python
+s.count(str, start=0, end=len(mystr))
+```
+
+replace
+
+將 `s1` 替換成 `s2` 如果指定 `count` 則不超過次數
+
+```python
+s.replace(s1, s2,  s.count(s1))
+```
+
+```python
+>>> s = "ha ha"
+>>> s.replace("ha", "HA")
+'HA HA'
+>>> s.replace("ha", "HA", 1)
+'HA ha'
+```
+
+split
+
+```python
+s.split(splitor, maxsplit)    
+```
+
+```python
+>>> s = "hello world python"
+>>> s.split(" ")
+['hello', 'world', 'python']
+>>> s.split(" ",1)
+['hello', 'world python']
+```
+
+capitalize
+
+將字串的第一個字變為大寫
+
+```python
+s.caplitalize()    
+```
+
+title
+
+將字串的每個單字字首變為大寫
+
+```python
+s.title()    
+```
+
+stratswith
+
+檢查字串是否為 `start_string` 開頭
+
+```python
+s.startswith(start_string)    
+```
+
+```python
+>>> s = "hello world python"
+>>> s.startswith("hello")
+True
+>>> s.startswith("python")
+False
+```
+
+endswith
+
+檢查字串是否為 `end_string` 結尾
+
+```python
+s.endswith(end_string)    
+```
+
+lower
+
+轉換字串中所有大寫字母為小寫
+
+```python
+s.lower()
+```
+
+upper
+
+轉換字串中所有小寫字母為大寫
+
+```python
+s.upper()
+```
+
+lstrip
+
+刪除字串左邊的空白
+
+```python
+s.lstrip()
+```
+
+rstrip
+
+刪除字串右邊的空白
+
+```python
+s.rstrip()
+```
+
+strip
+
+刪除字串兩邊的空白
+
+```python
+s.strip()
+```
+
+isdigit
+
+如果字串只包含數字返回 `True` 否則返回 `False`
+
+```python
+s.isdigit()
+```
+
+```python
+>>> s = 'abc123'
+>>> s.isdigit()
+False
+>>> s = '123'
+>>> s.isdigit()
+True
+```
+
+join
+
+讓列表每個字串後插入特定字符，構造成新字串
+
+```python
+s.join(list)
+```
+
+```python
+>>> l = ["hello", "world", "python"]
+>>> s = ""
+>>> s.join(l)
+'helloworldpython'
+>>> s = " "
+>>> s.join(l)
+'hello world python'
+>>> s = ","
+>>> s.join(l)
+'hello,world,python'
+```
+
+<br><br>
+
+### 列表
 
