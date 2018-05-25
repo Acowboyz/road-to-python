@@ -19,6 +19,12 @@
 * **[資料類型](#資料類型)**
     * [字串](#字串)
     * [列表](#列表) 
+    * [元組](#元組)
+    * [字典](#字典)
+    * [公用方法](#公用方法)
+    * [視覺化](#視覺化)
+* **[函數](#函數)**
+    
 
 <br><br>
 ## 初遇 Python
@@ -685,4 +691,362 @@ s.join(list)
 <br><br>
 
 ### 列表
+
+<br>
+
+#### 介紹
+
+可以用一個變量來存儲列表
+
+```python
+l = ["hello", "world", "python"]
+```
+
+#### 輸出
+
+```python
+>>> l = ["hello", "world", "python"]
+>>> print(l)
+['hello', 'world', 'python']
+>>> print(l[0])
+hello
+>>> print(l[1])
+world
+>>> print(l[2])
+python
+```
+
+#### 遍歷
+
+for
+
+```python
+l = ["hello", "world", "python"]
+
+for i in l:
+    print(i)
+```
+
+
+while
+
+```python
+l = ["hello", "world", "python"]
+
+length = len(l)
+
+i = 0
+
+while i < length:
+    print(l[i])
+    i += 1
+```
+
+#### 常見操作
+
+可以對列表中存放的數據進行，增、刪、改、查
+
+添加元素
+
+可以通過 `append` `extend` `insert` 來對列表添加元素
+
+```python
+>>> a = [1, 2]
+>>> b = [3, 4]
+>>> a.append(b)
+>>> a
+[1, 2, [3, 4]]
+>>> a.extend(b)
+>>> a
+[1, 2, [3, 4], 3, 4]
+>>> a.insert(2,3)
+>>> a
+[1, 2, 3, [3, 4], 3, 4]
+```
+
+更改元素
+
+可以通過對**索引值**的操作對列表更改元素
+
+```python
+>>> a = [1, 2, 3, 4]
+>>> a[0] = 0
+>>> a
+[0, 2, 3, 4]
+```
+
+查找元素
+
+可以通過 `in` `not in` `index` `count` 來查找列表元素
+
+```python
+l = [1, 2, 3, 4]
+
+if 1 in l:
+    print('found')
+else:
+    print('not found')
+```
+
+```python
+>>> l = [1, 2, 3, 4, 5, 6]
+>>> l.index(1)
+0
+>>> l.index(1, 1, 3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: 1 is not in list
+>>> l.count(1)
+1
+>>> l.count(7)
+0
+```
+
+刪除元素
+
+可以通過 `del` `pop` `remove` 將列表中元素刪除
+
+`del` 可以將整個列表刪除，也可將特定索引值刪除
+
+`pop` 將列表最後一個元素刪除，也可將特定索引值刪除，會返回刪除的元素值
+
+```python
+>>> l
+['a', ''b', 'c', 'd', 'a', 'b', 'c', 'd']
+>>> del l[0]
+>>> l
+['b', 'c', 'd', 'a', 'b', 'c', 'd']
+>>> l.remove('c')
+>>> l
+['b', 'd', 'a', 'b', 'c', 'd']
+>>> l.pop()
+'d'
+>>> l.pop(2)
+'a'
+>>> l
+['b', 'd', 'b', 'c']
+```
+
+排序
+
+可以通過 `sort` `reverse` 對列表排序
+
+```python
+>>> l = [1, 3, 2, 4]
+>>> l
+[1, 3, 2, 4]
+>>> l.reverse()
+>>> l
+[4, 2, 3, 1]
+>>> l.sort()
+>>> l
+[1, 2, 3, 4]
+>>> l.sort(reverse=True)
+>>> l
+[4, 3, 2, 1]
+```
+
+<br><br>
+
+### 元組
+<br>
+
+元組的元素無法被修改
+
+```python
+t = (1, 2, 3)
+```
+
+元組的內建函數 `count` `index`
+
+```python
+>>> t = ('a', 'b', 'c', 'a', 'b')
+>>> t.index('a')
+0
+>>> t.index('a', 1, 5)
+3
+>>> t.count('b')
+2
+>>> t.count('d')
+0
+```
+
+<br><br>
+
+### 字典
+<br>
+
+#### 介紹
+
+字典是由鍵值對組成，根據查找鍵來得到相對應的值
+
+```python
+d = {key: value}
+```
+
+#### 遍歷
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> for key, value in d.items() :
+...     print(key, value)
+... 
+a 1
+c 3
+b 2
+```
+
+
+#### 常見操作
+
+字典的與列表類似，也可以對字典中存放的數據，增、刪、改、查
+
+添加元素
+
+可以通過對不存在的鍵覆值，新增元素
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> d['d'] = 4
+>>> d
+{'a': 1, 'c': 3, 'b': 2, 'd': 4}
+```
+
+修改元素
+
+可以通過對存在的鍵覆值，修改元素
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> d['c'] = 4
+>>> d
+{'a': 1, 'c': 4, 'b': 2}
+```
+
+查找元素
+
+可以通過 `get` ，查找元素
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> d.get('a')
+1
+```
+
+
+刪除元素
+
+可以通過 `del` 刪除整個字典，或刪除特定元素
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> del d['a']
+>>> d
+{'c': 3, 'b': 2}
+```
+
+清空元素
+
+可以通過 `clear` 清空字典
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> d.clear()
+>>> d
+{}
+```
+
+<br>
+
+字典其他常用的操作
+
+len
+
+字典鍵值對的個數
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> len(d)
+3
+```
+
+keys
+
+字典中所有鍵，返回類型為 `dict_keys` ，可以用 `list` 轉換成列表使用
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> a = d.keys()
+>>> type(a)
+<class 'dict_keys'>
+>>> b = list(d.keys())
+>>> b
+['a', 'c', 'b']
+```
+
+values
+
+字典中所有值，返回類型為 `dict_values` ，可以用 `list` 轉換成列表使用
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> a = d.values()
+>>> a
+dict_values([1, 3, 2])
+>>> b = list(d.values())
+>>> b
+[1, 3, 2]
+```
+
+items
+
+字典中所以鍵值，返回類型為 `dict_items`， 可以用 `list` 轉換成列表使用
+
+```python
+>>> d = { 'a' : 1, 'b':2, 'c':3 }
+>>> d.items()
+dict_items([('a', 1), ('c', 3), ('b', 2)])
+>>> list(d.items())
+[('a', 1), ('c', 3), ('b', 2)]
+```
+
+<br><br>
+
+### 公用方法
+
+<br>
+
+
+<br><br>
+
+### 視覺化
+
+<br>
+
+<br><br>
+
+## 函數
+
+<br><br>
+
+### 介紹
+<br>
+
+在開發時，某塊程式碼會重複使用到，為了提高效率和程式碼的重用性，所以把其功能獨立出來為一函數
+
+<br><br>
+
+###定義函數
+<br>
+
+```
+def add2num(a, b):
+    return a + b
+
+print(add2num(1, 2))
+```
+
+[函數的運作](http://www.pythontutor.com/visualize.html#code=def%20add2num%28a,%20b%29%3A%0A%20%20%20%20return%20a%2Bb%0A%0Aprint%28add2num%2811,%2022%29%29&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)
+
+
 
