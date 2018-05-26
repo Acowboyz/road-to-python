@@ -24,6 +24,15 @@
     * [公用方法](#公用方法)
     * [視覺化](#視覺化)
 * **[函數](#函數)**
+    * [函數介紹](#函數介紹)
+    * [定義函數](#定義函數)
+    * [變量](#變量)
+    * [參數](#參數)
+    * [遞迴函數](#遞迴函數)
+    * [匿名函數](#匿名函數)
+* **[文件操作和應用](#文件操作和應用)**
+    * 
+    * 
     
 
 <br><br>
@@ -1029,15 +1038,22 @@ dict_items([('a', 1), ('c', 3), ('b', 2)])
 
 <br><br>
 
-### 介紹
+### 函數介紹
 <br>
 
 在開發時，某塊程式碼會重複使用到，為了提高效率和程式碼的重用性，所以把其功能獨立出來為一函數
 
 <br><br>
 
-###定義函數
+### 定義函數
 <br>
+
+四種函數的類型
+
+* 無參數，無返回值
+* 無參數，有返回值
+* 有參數，無返回值
+* 有參數，有返回值
 
 ```
 def add2num(a, b):
@@ -1049,4 +1065,222 @@ print(add2num(1, 2))
 [函數的運作](http://www.pythontutor.com/visualize.html#code=def%20add2num%28a,%20b%29%3A%0A%20%20%20%20return%20a%2Bb%0A%0Aprint%28add2num%2811,%2022%29%29&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)
 
 
+<br><br>
 
+### 變量
+<br>
+
+#### 全局變量
+
+作用域為整個程式執行範圍
+
+```python
+x = "global"
+
+def test():
+    print("x inside :", x)
+
+test()
+print("x outside:", x)
+```
+
+```
+x inside : global
+x outside: global
+```
+
+#### 局部變量
+
+作用域為函數執行範圍
+
+```python
+def test():
+    y = "local"
+
+test()
+print(y)
+```
+
+```
+NameError: name 'y' is not defined
+```
+
+
+#### 全局變量與局部變量
+
+在函數內如要對全局變量做修改需要宣告 `global`
+
+> Hint: 當列表和字典作為全局變量時，在函數內是不需要宣告 `global` 即可對其修改
+
+```python
+x = "global"
+
+def test():
+    global x
+    y = "local"
+    x = x * 2
+    print(x)
+    print(y)
+    
+test()
+```
+
+```
+global global 
+local
+```
+
+如果沒有宣告 `global` ，在函數內又定義相同名稱變量，則為局部函數視之
+
+```python
+x = 5
+
+def test():
+    x = 10
+    print("local x:", x)
+
+test()
+print("global x:", x)
+```
+
+```
+local x: 10
+global x: 5
+```
+
+#### 非局部變量
+
+在巢狀函數中，如果內部函數要對外部函數變量進行修改，則需宣告 `nonlocal`
+
+```python
+def outer():
+    x = "local"
+    
+    def inner():
+        nonlocal x
+        x = "nonlocal"
+        print("inner:", x)
+    
+    inner()
+    print("outer:", x)
+
+outer()
+```
+
+<br><br>
+
+### 參數
+
+<br>
+
+#### 介紹
+
+> "We will generally use parameter for a variable named in the parenthesized list in a function definition, and argument for the value used in a call of the function.
+>  The terms formal argument and actual argument are sometimes used for the same distinction."<br>
+>  ——《The C Programming Language》Section 1.7 K&R
+
+`parameter` 形式參數，在函數定義時，所定義的參數通常以此稱之
+
+`argument` 實際參數，在呼叫函數時，傳入的參數通常以此稱之
+
+在 Python 中，參數皆稱為 `argument` 沒有區分
+
+#### 位置參數 (positional arguments)
+
+一般需要覆值的參數
+
+#### 預設參數 (default arguments)
+
+呼叫函數時，如果預設參數沒有被覆值，則為預設值。
+
+```python
+def greet(name, msg = "Good morning!"):
+   """
+   This function greets to
+   the person with the
+   provided message.
+
+   If message is not provided,
+   it defaults to "Good
+   morning!"
+   """
+
+   print("Hello",name + ', ' + msg)
+
+greet("Kate")
+greet("Bruce",msg = "How do you do?")
+```
+
+定義函數和呼叫函數時，帶有預設值的參數皆要位於無預設值參數的後方
+
+```python
+def greet(msg = "Good morning!", name):
+```
+
+```
+SyntaxError: non-default argument follows default argument
+```
+
+#### 不定長度參數 (arbitrary arguments)
+
+
+
+#### 關鍵字參數 (keyword arguments)
+
+#### 命名關鍵字參數
+
+
+<br><br>
+
+### 遞迴函數
+<br>
+
+如果函數在內部呼叫自己本身的話，這個函數稱為遞迴函數
+
+* 優點
+    * 遞迴函數讓程式碼看起來簡化且乾淨
+    * 可以將一個複雜的問題，拆分成數個子問題來看待 `divide and conquer`
+* 缺點
+    * 背後的邏輯有時較難弄懂
+    * 會佔用較多的記憶體和時間
+    * 偵錯比較困難
+
+[練習 : 遞迴函數計算階層](../recursion/recursive.py) 
+
+[遞迴函數的運作](http://www.pythontutor.com/visualize.html#code=def%20calc_factorial%28num%29%3A%0A%20%20%20%20%22%22%22This%20is%20a%20recursive%20function%0A%20%20%20%20%20%20%20%20to%20find%20the%20factorial%20of%20an%20integer%22%22%22%0A%20%20%20%20if%20num%20%3E%201%3A%0A%20%20%20%20%20%20%20%20return%20num%20*%20calc_factorial%28num-1%29%0A%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20return%20num%0A%0Anum%20%3D%205%0A%0Aprint%28%22The%20factorial%20of%22,%20num,%20%22is%22,%20calc_factorial%28num%29%29&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)
+
+<br><br>
+
+### 匿名函數 (lambda function)
+<br>
+
+```
+lambda arguments: expression
+```
+
+匿名函數省略了用 `def` 聲明函數的標準步驟
+
+```python
+square = lambda x: x ** 2
+```
+
+```python
+def square(x):
+    return x ** 2
+```
+
+[練習 : 依照姓名和年紀排序](../lambda/lamba_sort.py)
+
+#### 進階應用
+
+[Map, Filter and Reduce](http://book.pythontips.com/en/latest/map_filter.html)
+
+
+<br><br>
+
+## 文件操作和應用
+
+<br><br>
+
+### 
+<br>
