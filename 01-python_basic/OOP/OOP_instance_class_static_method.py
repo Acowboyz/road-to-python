@@ -6,10 +6,13 @@ class Game(object):
     def __init__(self):
         # instance attribute
         self.name = "mario"
+        # self.num = 0
 
    # def game_item(self):
    #     print("!!!!!")
 
+    def add_num(self):
+        self.num = 100
     # class method
     @classmethod
     def add_num(cls):
@@ -20,6 +23,7 @@ class Game(object):
     def print_menu():
         print("1. start game")
         print("2. end game")
+        print(Game.num)
 
 game = Game()
 
@@ -32,3 +36,4 @@ print(Game.num)
 #Game.print_menu()
 game.print_menu()
 
+print(dir(Game))

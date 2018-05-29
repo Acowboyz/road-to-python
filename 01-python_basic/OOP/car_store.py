@@ -22,7 +22,7 @@ class BMWFactory(object):
         if car_type == "BMW520i":
             return BMW520i()
 
-# Design pattern "simply factory"
+# Design pattern "simple factory"
 class TOYOTAFactory(object):
     # TOYOTA Factory
     def select_car_by_type(self, car_type):
@@ -40,6 +40,7 @@ class CRV(Car):
 class BMW520i(Car):
     def Intro(self):
         print("BMW520i")
+
 
 bmw_store = BMWCareStore()
 bmw_car = bmw_store.order("BMW520i")

@@ -1,7 +1,8 @@
 class ShortInputException(Exception):
     def __init__(self, length, atleast):
-        self.length  = length
+        self.length = length
         self.atleast = atleast
+
 
 def main():
     try:

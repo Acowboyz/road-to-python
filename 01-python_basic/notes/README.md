@@ -31,9 +31,14 @@
     * [遞迴函數](#遞迴函數)
     * [匿名函數](#匿名函數)
 * **[文件操作和應用](#文件操作和應用)**
-    * 
-    * 
-    
+    * [文件相關操作](#文件相關操作)
+    * [文件夾相關操作](#文件夾相關操作)
+* **[物件導向程式設計](#物件導向程式設計-(object-oriented-programming))** 
+    * [類型與物件](#類型與物件-(class,-object))
+    * [方法與屬性](#方法與屬性-(method,-attribute))
+    * [繼承、封裝、多型](#繼承、封裝、多型)
+    * [設計模式](#設計模式-(design-pattern))
+
 
 <br><br>
 ## 初遇 Python
@@ -170,6 +175,8 @@ result in either fixed-point format or in scientific notation, depending on its 
 >>> "%.3g" % 1234
 '1.23e+03'
 ```
+
+> [Hint : 利用 `format()` 取代 `%s`](https://pyformat.info/)
 
 <br><br>
 
@@ -1175,8 +1182,8 @@ outer()
 
 #### 介紹
 
-> "We will generally use parameter for a variable named in the parenthesized list in a function definition, and argument for the value used in a call of the function.
->  The terms formal argument and actual argument are sometimes used for the same distinction."<br>
+> "We will generally use parameter for a variable named in the parenthesized list in a function definition, and argument for the value used in a call of the function. The terms formal argument and actual argument are sometimes used for the same distinction."
+>
 >  ——《The C Programming Language》Section 1.7 K&R
 
 `parameter` 形式參數，在函數定義時，所定義的參數通常以此稱之
@@ -1282,5 +1289,600 @@ def square(x):
 
 <br><br>
 
-### 
+### 文件相關操作
 <br>
+
+#### 開啟與關閉
+
+```
+f = open("test.txt",mode = 'r',encoding = 'utf-8')
+f.close()
+```
+
+使用 `with` 開啟文件可以不需要再呼叫 `close()` 關閉文件
+
+```
+with open("test.txt",encoding = 'utf-8') as f:
+```
+
+
+| 模式   | 說明 
+| :---: | :---:  
+| r     | 用讀方式打開文件，文件的指針會在文件的開頭
+| w     | 用寫方式打開文件，如果文件存在將其覆蓋，如果文件不存在創造新文件
+| a     | 用追加方式打開文件，文果文件存在指針將會在文件結尾，如果文件不存在創造新聞鍵
+| b     | 用二進制打開文件
+| +     | 允許讀寫操作
+
+<br>
+
+#### 讀取與寫入
+
+#### 相關操作
+
+[文件詳細操作說明](https://www.programiz.com/python-programming/file-operation#methods)
+
+[練習 : 讀取與寫入操作](../file_operation/write_read_file.py)
+
+[練習 : 製作文件備份](../file_operation/copy_file.py)
+
+#### 定位讀寫
+
+獲取當前文件的位置 `tell()`
+
+```python
+>>> f = open("read_write_file.bak", "r" , encoding = "utf-8")
+>>> f.read(3)
+'tes'
+>>> f.tell()
+3
+>>> f.read(3)
+'t !'
+>>> f.tell()
+6
+>>> f.close()
+```
+
+定位到文件的某個位置 `seek()`
+
+* `seek(offset, from)`
+    * offset : 偏移量
+    * from : 從哪裡開始
+        * 0 : 文件開頭
+        * 1 : 當前位置
+        * 2 : 文件結尾
+
+將指針設定為，從文件開頭，偏移 5 個字節
+
+```python
+>>> f = open("read_write_file.bak", "r" , encoding = "utf-8")
+>>> f.read(15)
+'test !!!! \ntest'
+>>> f.tell()
+15
+>>> f.seek(5,0)
+5
+>>> f.tell()
+5
+>>> f.close()
+```
+
+將指針設定為，文件尾端
+
+
+> In text files (those opened without a `b` in the mode string),
+> only seeks relative to the beginning of the file are allowed
+> (the exception being seeking to the very file end with `seek(0, 2)`).
+
+
+```python
+>>> f = open("read_write_file.bak", "r" , encoding = "utf-8")
+>>> f.tell()
+0
+>>> f.seek(-3,2)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+io.UnsupportedOperation: can't do nonzero end-relative seeks
+>>> f.seek(0,2)
+44
+>>> f.close()
+```
+
+<br><br>
+
+### 文件夾相關操作
+
+<br>
+
+利用 `os` 模組來達到文件與文件夾的相關操作
+
+#### 當前資料夾
+
+```python
+>>> os.getcwd()
+'/home/felixlin/road_to_python/01-python_basic/file_operation'
+>>> os.getcwdb()
+b'/home/felixlin/road_to_python/01-python_basic/file_operation'
+```
+
+#### 更換資料夾
+
+```python
+>>> os.chdir('../')
+>>> os.getcwd()
+'/home/felixlin/road_to_python/01-python_basic'
+```
+
+#### 獲取資料夾列表
+
+```python
+>>> os.listdir("file_operation")
+['write_read_file.py', 'read_write_file.txt', 'copy_file.py', 'read_write_file.bak']
+```
+
+#### 創建新資料夾
+
+```python
+>>> os.mkdir('test')
+>>> os.listdir()
+['test']
+```
+
+#### 重新命名
+
+```python
+>>> os.listdir()
+['test']
+>>> os.rename('test','new_one')
+>>> os.listdir()
+['new_one']
+```
+
+#### 刪除
+
+```python
+>>> os.listdir()
+['new_one', 'old.txt']
+>>> os.remove('old.txt')
+>>> os.listdir()
+['new_one']
+```
+
+#### 批次修改文件名
+
+<br><br>
+
+## 物件導向程式設計 (Object-oriented programming)
+
+<br><br>
+
+### 類型與物件 (class, object)
+
+<br>
+
+#### 類型
+
+定義了物件能實現的抽象屬性和方法
+
+定義類型
+
+```python
+class MyFirstClass:
+    '''This is a docstring. I have created my first class'''
+    pass
+```
+
+#### 物件
+
+又稱為類型的實例 (instance) ，透過將類型實例化 (instantiation) 得到實體物件
+
+創建實例
+
+```python
+obj = MyFirstClass()
+```
+
+[練習 : 定義類型，創建實例，添加方法與屬性](../OOP/OOP.py)
+
+<br><br>
+
+### 方法與屬性 (method, attribute)
+
+<br>
+
+* 方法是用來描述物件的行為
+* 屬性是用來描述物件的特徵
+
+```python
+class Parrot:
+
+    # class attribute
+    species = "bird"
+
+    # magic method
+    def __init__(self, name, age):
+    # instance attribute
+        self.name = name
+        self.age = age
+    
+    def __str__(self):
+        return "species: {}, name: {}, age: {}".format(self.species, self.name, self.age)
+    
+ 
+    # instance method
+    def sing(self, song):
+        return "{} sings {}".format(self.name, song)
+
+    def dance(self):
+        return "{} is now dancing".format(self.name)
+
+# instantiate the Parrot class
+blu = Parrot("Blu", 10)
+woo = Parrot("Woo", 15)
+
+# call the __str__ method
+print(blu)
+print(woo)
+
+# access the class attributes
+print("Blu is a {}".format(blu.__class__.species))
+print("Woo is also a {}".format(woo.__class__.species))
+
+# access the instance attributes
+print("{} is {} years old".format( blu.name, blu.age))
+print("{} is {} years old".format( woo.name, woo.age))
+
+# call instance methods
+print(blu.sing("'Happy'"))
+print(blu.dance())
+```
+
+#### 魔法方法 (magic methods)
+
+[魔法方法詳細介紹](https://rszalski.github.io/magicmethods/)
+
+`__init__()`
+
+當創建實例時， `__init__()` 方法隨即會被呼叫，用來初始化
+
+`__init__(self, name, age)` 在定義類型時，定義需要的傳入的參數
+
+
+`__str__()`
+
+當要輸出物件時，即會輸出 `__str__()` 方法定義的返回值
+
+`__del__()`
+
+當刪除實例時， `__del__()` 方法隨即會被呼叫
+
+當有其他變量也指到同一物件時，會等到所有的引用接被刪除才會呼叫 `__del__`
+
+[練習 : `__del__` 方法](../OOP/OOP__del__.py)
+
+
+`__new__`
+
+實例化時最先呼叫的類型方法，作用為返回類型的新實例
+
+```python
+class MyClass(object):
+    def __init__(self):
+        print("this is init method")
+
+    def __new__(cls):
+        print("this is new method")
+        return object.__new__(cls)
+```
+
+實際應用，將 inch 轉換為 meter
+
+```python
+>>> class InchToMeter(float):
+    ...     "Convert from inch to meter"
+    ...     def __new__(cls, arg=0.0):
+    ...         return float.__new__(cls, arg*0.0254)
+    ...
+    >>> print (InchToMeter(12))
+    0.30479999999999996
+```
+
+
+
+<br>
+
+#### 實例屬性
+
+`self`
+
+`self` 為實例屬性，在實例化時，需要對 `__init__(self)` 調用實例屬性來初始化
+
+同一類型所創建的各個實例，實例屬性為獨立
+
+
+<br>
+
+#### 類型屬性
+
+`species` 為類型屬性，同一類型所創建的各個實例，會共享此一類型屬性 
+
+<br>
+
+#### 實例方法
+
+`def sing(self, song)` 在定義實例方法時，將需要傳入的參數定義在 `self` 之後
+
+
+<br>
+
+[練習 : 存放家具]()
+
+<br>
+
+#### 私有屬性
+
+對實例屬性修改的方式有兩種
+
+1. object.attr = data  `直接修改屬性值`
+2. object.method(data) `透過呼叫實例方法修改屬性值`
+
+私有屬性，不允許實例化的物件訪問，但允許實例方法訪問
+
+```python
+>>> class Myclass:
+...     def __init__(self):
+...             self.__age = 18
+... 
+>>> Myclass.__age
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: type object 'Myclass' has no attribute '__age'
+```
+
+私有類屬性，實際上被重寫為 `_classname__attribute`，所以在屬性命名時要注意，不然會混淆
+
+```python
+>>> class Myclass:
+...     __name = "Felix"
+... 
+>>> dir(Myclass)
+['_Myclass__name', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__']
+>>> Myclass._Myclass__name
+'Felix'
+```
+
+<br>
+
+#### 私有方法
+
+私有方法，不允許實例訪問，但實際上被重寫為 `_classname__method`，所以在方法命名時也需要注意，不然會混淆
+
+[練習 : 私有方法](../OOP/OOP_private_method.py)
+
+<br>
+
+#### 類型方法
+
+需要用裝飾器 `@classmethod` 來標示為類方法，可以用來訪問和修改類屬性
+
+[練習 : 類方法與靜態方法](../OOP/OOP_instance_class_static_method.py)
+
+<br>
+
+#### 靜態方法
+
+需要用裝飾器 `@staticmethod` 來標示為靜態方法，不需要多定義參數
+
+<br>
+
+> 總結
+>
+> 類方法的第一個參數是類物件 `cls` ，通過 `cls` 引用的必定是類物件的屬性和方法
+> 
+> 實例方法的第一個參數是實例物件 `self` ，通過 `self` 引用的可能是類屬性，也有可能是實例屬性，在存在同名稱的情況下，實例屬性的優先權較高
+>
+> 靜態方法不需要任何參數，在靜態方法中引用類屬性，必須通過類物件來引用，無法引用實例屬性
+
+
+
+<br><br>
+
+### 繼承、封裝、多型
+
+<br>
+
+#### 繼承 (inheritance)
+
+父類的屬性及方法皆會被繼承
+
+```python
+class BaseClass:
+  # Body of base class
+class DerivedClass(BaseClass):
+  # Body of derived class
+```
+
+單繼承
+
+私有的属性、方法，不会被子類继承，也不能被子類直接被訪問
+
+[練習 : 單繼承，並重寫父類方法](../OOP/OOP_inherit.py)
+
+重寫
+
+在子類中，定義和父類相同名字的方法，子類的方法會將父類方法覆蓋
+
+子類可以通過 `super()` 來呼叫父類的實例方法
+
+
+多繼承
+
+子類繼承多個父類類型，如遇到同名字的實例方法，可以用 `__mro__` 來查看先後順序
+
+這個搜索方法稱為 [C3 Algorithm](http://search.cpan.org/~haarg/Algorithm-C3-0.10/lib/Algorithm/C3.pm)
+
+[練習 : 多繼承，並查看實例方法搜索的先後順序](../OOP/OOP_muti_inherit.py)
+
+<br>
+
+#### 封裝 (encapsulation)
+
+封裝，又稱資料封裝，運用私有屬性防止物件中的資料被直接的修改
+
+
+<br>
+
+#### 多型 (polymorphism)
+
+鴨子類型 `duck typing`
+
+在鴨子型別中，關注點在於物件的行為，能作什麼；而不是關注物件所屬的類型。
+
+在多型的應用中，運用相同的界面，傳入不同的子類將會產生不同的行為，無須明確知道子類實際上是什麼。
+
+[練習 : 多型](../OOP/OOP_polymorphism.py)
+
+
+<br><br>
+
+### 設計模式 (design pattern)
+
+<br>
+
+> 設計模式的目的是讓程式碼易於維護和擴展
+
+
+#### 簡單工廠模式 (simple factory pattern)
+
+通過一個工廠來決定創建哪些實體產品
+
+組成要素
+
+* 工廠
+    * 可以用類型或函數實現，負責產品實例的創建
+* 產品的模板
+    * 通常用類型實現，提供子類產品通用的屬性和方法
+* 產品
+    * 通常用類型實現，繼承父類模板衍生出各種具體的產品
+
+> 通過經典的案例來演示簡單工廠模式
+>
+> [練習 : 計算機](../OOP/simple_factory_calc.py)
+> 
+> [練習 : 車商](../OOP/car_store.py)
+
+<br>
+
+#### 工廠方法模式 (factory method pattern)
+
+
+<br>
+
+#### 單例模式 (singleton pattern)
+
+確保某個類型只有一個實例
+
+當每個實例都會占用資源，並且實例初始化會影響性能，此時就可以考虑使用單例模式，它给我们带来的好处是只有一个实例占用资源，并且只需初始化一次；
+
+[練習 : 單例模式](../OOP/singleton.py)
+
+<br><br>
+
+## 異常處理
+
+<br><br>
+
+### 異常 (exception)
+
+<br>
+
+當 python 解釋器偵測到錯誤時，導致解釋器中斷無法繼續運行，而出現的錯誤提示
+
+[詳細的異常](https://www.programiz.com/python-programming/exceptions)
+
+```python
+>>> 1 / 0
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ZeroDivisionError: division by zero
+
+>>> open("test.txt")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: 'test.txt'
+```
+
+<br><br>
+
+### 異常處理
+
+<br>
+
+####單一異常處理
+
+此程序看不到任何錯誤，因為用 `except` 處理異常 `IOError`
+
+```python
+try:
+    print('-----test--1---')
+    open('test.txt','r')
+    print('-----test--2---')
+except IOError:
+    pass
+```
+
+<br>
+
+####多個異常處理
+
+將多個異常名字用元組方式處理
+
+```python
+try:
+    # FileNotFoundError
+    open("_.txt")
+    
+    # NameError
+    print(num)
+
+# use tuple to combine exception
+except (NameError, FileNotFoundError) as e:
+    print("Deal with Exception")
+    print(e)
+```
+
+<br>
+
+####所有異常處理
+
+```python
+try:
+   # do something
+   pass
+
+except ValueError:
+   # handle ValueError exception
+   pass
+
+except (TypeError, ZeroDivisionError):
+   # handle multiple exceptions
+   # TypeError and ZeroDivisionError
+   pass
+
+except Exception:
+   # handle all other exceptions
+   pass
+
+else:
+    # no exception occurs
+    pass
+    
+finally:
+    # no matter if the exception occurs, do this
+    pass
+```
+
+<br>
+
+#### 自定義異常處理
+
