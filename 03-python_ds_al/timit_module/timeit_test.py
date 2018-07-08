@@ -1,34 +1,41 @@
 from timeit import Timer
 
+
 # list
 def t1():
     l = []
     for i in range(1000):
         l = l + [i]
 
+
 def t2():
     l = []
     for i in range(1000):
         l.append(i)
 
+
 def t3():
     l = [i for i in range(1000)]
 
+
 def t4():
     l = list(range(1000))
+
 
 def t5():
     li = []
     for i in range(1000):
         li.extend([i])
 
+
 def t6():
     li = []
     for i in range(1000):
         li.insert(0, i)
 
+
 timer1 = Timer("t1()", "from __main__ import t1")
-print("concat ",timer1.timeit(number=1000))
+print("concat ", timer1.timeit(number=1000))
 
 timer2 = Timer("t2()", "from __main__ import t2")
 print("append ", timer2.timeit(number=1000))

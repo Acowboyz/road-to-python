@@ -7,6 +7,7 @@ def selection_sort(select_list):
                 min_index = i
         select_list[j], select_list[min_index] = select_list[min_index], select_list[j]
 
+
 if __name__ == "__main__":
     li = [54, 26, 93, 17, 77, 31, 44, 55, 20]
     print(li)

@@ -1,5 +1,6 @@
 def quick_sort(q_list, start, end):
 
+    # end condition for recursion
     if start >= end:
         return
 
@@ -18,6 +19,8 @@ def quick_sort(q_list, start, end):
         else:
             q_list[high] = q_list[low]
 
+        print(q_list)
+
     # low == high
     q_list[low] = mid_value
 
@@ -26,6 +29,7 @@ def quick_sort(q_list, start, end):
 
     # sort the high part
     quick_sort(q_list, low+1, end)
+
 
 if __name__ == "__main__":
     li = [54, 26, 93, 17, 77, 31, 44, 55, 20]

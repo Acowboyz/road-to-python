@@ -20,6 +20,7 @@ def bubble_sort_optimal(bubblelist):
         if 0 == count:
             return
 
+
 if __name__ == "__main__":
     li = [54, 26, 93, 17, 77, 31, 44, 55, 20]
     print(li)

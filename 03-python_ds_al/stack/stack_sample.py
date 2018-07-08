@@ -23,6 +23,7 @@ class Stack(object):
     def size(self):
         return len(self.__list)
 
+
 if __name__ == "__main__":
     s = Stack()
     s.push(1)
