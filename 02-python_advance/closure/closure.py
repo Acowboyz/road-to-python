@@ -6,6 +6,7 @@ def test(number):
 
     return test_in
 
+
 ret = test(100)
 print(ret(100))
 print(ret(200))

@@ -7,12 +7,13 @@ def w1(func):
             print("no authorization")
     return inner
 
-#f1 = w1(f1)
-#f1()
-# decorator
+
+# f1 = w1(f1)
+# f1()
+# decorator @w1 = w1(f1)
 @w1
 def f1():
     print("f1")
 
-#f1 = w1(f1)
+# f1 = w1(f1)
 f1()

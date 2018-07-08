@@ -31,11 +31,13 @@ p1.run = types.MethodType(run, p1)
 
 # p1.run = run
 
-Person.run = run
+# Person.run = run
 
 Person.staticme = staticme
 
 Person.classme = classme
+
+# delattr(Person, "classme")
 
 p1.classme()
 

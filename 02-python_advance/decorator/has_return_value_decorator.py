@@ -9,4 +9,5 @@ def test():
     print("test")
     return "haha"
 
+
 print(test())

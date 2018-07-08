@@ -5,6 +5,17 @@
 * **[進階物件導向程式設計](#進階物件導向程式設計)**
     * [元類型](#元類型-metaclass)
     * [動態語言](#動態語言)
+    * [迭代器](#迭代器-iterator)
+    * [生成器](#生成器-generator)
+    * [閉包](#閉包-closure)
+    * [裝飾器](#裝飾器-decorator)
+* **[Python 進階知識](#Python-進階知識)**
+    * [模組導入](#模組導入)
+    * [作用域](#作用域)
+    * [淺複製、深複製](#淺複製、深複製)
+    * 
+* **[正規表達式](#正規表達式-regular-expression)**
+    *
 
 
 <br><br>
@@ -94,7 +105,7 @@ foo
 
 因為仍然需要創建類型本身，顯得不夠動態
 
-可以思考的是類型也是對象，應當是可以通過其它東西來生成
+可以思考的是類型也是物件，應當是可以通過其它東西來生成
 
 而當使用 `class` 時， python 自動生成類型這個物件，而也要有方法可以手動生成這個物件才是
 
@@ -276,8 +287,8 @@ class Foo(Bar):
 python 會做如下的操作
 
 1. 判斷 `Foo` 中有沒有 `__metaclass__` 這個屬性，如果有， python 會通過其在記憶體中創建一個類型物件
-2. 如果 python 沒有找到 `__metaclass__` ，它會繼續在模組中尋找 `__metaclass__`  屬性，並嘗試做和前述相同的操作
-3. 如果 python 在都找不到 `__metaclass__` ，它就會使用父類型 `Bar` 所擁有的元類型，也就是 `type` 
+2. 如果 python 沒有找到 `__metaclass__` ，它會繼續在模組中尋找 `__metaclass__`  屬性，並嘗試做和前述相同的操作 ( python3 已經無法在模組中定義元類型)
+3. 如果 python 都找不到 `__metaclass__` ，它就會使用父類型 `Bar` 所擁有的元類型，也就是 `type` 
 
 要小心的一點是， `__metaclass__` 屬性是無法被繼承的
 
@@ -406,7 +417,7 @@ class Person(models.Model):
 
 但是如果你這樣做
 
-```
+```python
 guy = Person(name='bob', age='35')
 print(guy.age)
 ```
@@ -427,19 +438,717 @@ print(guy.age)
 142630324
 ```
 
-python 中的一切都是物件，類型的實例，元類型的實例。除了 `type` 實際上是自己的元類型，這在純 python 上是無法被重現的。
+python 中的一切都是物件，類型的實例，元類型的實例。除了 `type` 實際上是自己的元類型，這在純 python 上是無法被重現的
 
 元類型是很複雜的，對於非常簡單的類型，可能不希望通過使用元類型來修改，而可以通過其他兩種技術來實現
 
 1. [Monkey patching](https://en.wikipedia.org/wiki/Monkey_patch)
 2. class decorators
 
-當需要動態修改類型時， 99% 的時間最好運用這兩種技術，但其實在 99% 的時間裡，根本就不需要動態改型類型
+當需要動態修改類型時， 99% 的時間最好運用這兩種技術，但其實在 99% 的時間裡，根本就不需要動態更改類型
 
 <br><br>
 
 ### 動態語言
 
 <br>
+
+#### 動態語言的定義
+
+> 動態語言是在**運行時可以改變其結構**的語言，例如新的函式、物件、甚至代碼可以被引進，已有的函式可以被刪除或是其他結構上的變化
+
+<br>
+
+#### 在運行的過程中給實例添加屬性
+
+動態添加原先沒有定義的屬性給實例
+
+```python
+>>> class Person(object):
+    def __init__(self, name = None, age = None):
+        self.name = name
+        self.age = age
+
+
+>>> P = Person("Felix", "24")
+>>> P.gender = "male"
+>>> P.gender
+'male'
+```
+<br>
+
+#### 在運行的過程中給實例和類型添加方法
+
+* 給實例添加方法需要引入 `types` 模組
+    * 直接覆值，但每次呼叫時需要傳入實例當參數
+    * 引入 `types` 模組中的 `MethodType` 方法綁定
+* 給類型添加方法
+    * 直接覆值即可
+
+[練習 : 動態添加方法](../OOP_advance/add_method_to_class_instance.py)
+
+<br>
+
+#### 在運行的過程中刪除屬性與方法
+
+1. `del instance.attribute`
+2. `delattr(instance, "attribute_name")`
+
+
+#### 限制實例能添加的實例屬性
+
+[練習 : 利用 `__slot__` 限制實例屬性](../OOP_advance/_slots_.py)
+
+
+<br><br>
+
+### 迭代器 (iterator)
+<br>
+
+#### 迭代器介紹
+
+迭代是訪問集合元素的一種方式，而迭代器是可以記住遍歷位址的物件，迭代器從集合的第一個元素開始訪問，直到所有元素被訪問完結束
+
+<br>
+
+#### 可迭代物件
+
+以直接可以作用於 `for` 循環的數據類型，統稱為可迭代物件 `iterable`
+
+* 集合數據類型，如 `list` `tuple` `dict` `set` `str`
+* 生成器，包含生成器和帶有 `yield` 的生成函數
+
+<br>
+
+#### 判斷是否可迭代 
+
+可以使用 `isinstance(object, Iterable)` 判斷物件是否可迭代
+
+```python
+>>> from collections import Iterable
+>>> isinstance([], Iterable)
+True
+>>> isinstance({}, Iterable)
+True
+>>> isinstance('abc', Iterable)
+True
+>>> isinstance(1, Iterable)
+False
+>>> isinstance((x for x in range(10)), Iterable)
+True
+```
+
+#### 迭代器
+
+可以利用 `iter()` 將可迭代對象變為迭代器，利用 `next()` 來迭代物件裡的每個元素，當遇到結束時， 異常 `StopIteration` 發生
+
+
+```python
+>>> my_list = [1, 2, 3, 4, 5]
+# get an iterator using iter()
+>>> my_iter = iter(my_list)
+# iterate through it using next()
+>>> next(my_iter)
+1
+>>> next(my_iter)
+2
+# next(object) is same as object.__next__()
+>>> my_iter.__next__()
+3
+>>> my_iter.__next__()
+4
+>>> my_iter.__next__()
+5
+# raise error, when no items left
+>>> my_iter.__next__()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+而其實 `for` 循環，也是靠著將可迭代的物件轉變成迭代器，進行遍歷
+
+```python
+for element in iterable:
+    # do something with element
+```
+
+```python
+# create an iterator object from that iterable
+iter_obj = iter(iterable)
+
+# infinite loop
+while True:
+    try:
+        # get the next item
+        element = next(iter_obj)
+        # do something with element
+    except StopIteration:
+        # if StopIteration is raised, break from loop
+        break
+```
+
+<br>
+
+#### 自定義迭代器
+
+[練習 : 自定義迭代器](../iterator/self_define_iterator.py)
+
+
+<br><br>
+
+### 生成器 (generator)
+
+<br>
+
+#### 生成器介紹
+
+受到記憶體限制，創建的物件容量一定是有限的，如果只僅僅需要使用到幾個元素而創造一個大容量的物件，絕大多數的元素佔用的空間都會被浪費。所以如果能按照某種方法推演，在循環的過程中不斷的推演出後續的元素，這樣就可以節省大量的空間。在 python 中，稱其為生成器 `generator`
+
+<br>
+
+#### 用生成器運算式創造生成器
+
+創建生成器可以使用使用生成器運算式 (generator expression)
+
+生成器運算式，和列表運算式的差別只在於 `[]` 和 `()` 的不同
+
+```python
+>>> mylist = [1, 2, 3, 4, 5]
+>>> L = [x**2 for x in mylist]
+>>> L
+[1, 4, 9, 16, 25]
+>>> G = (x**2 for x in mylist)
+>>> G
+<generator object <genexpr> at 0x7f2c5d6fe5c8>
+```
+
+可以通過呼叫 `next()` 計算生成器的下一個值並返回，當遇到結束時，會產生異常 `StopIteration`，可以用 `for` 循環避免這個問題
+
+```python
+>>> next(G)
+1
+>>> next(G)
+4
+>>> next(G)
+9
+>>> next(G)
+16
+>>> next(G)
+25
+>>> next(G)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+```python
+>>> G = (x**2 for x in mylist)
+>>> for x in G:
+...     print(x)
+... 
+1
+4
+9
+16
+25
+```
+
+<br>
+
+#### 用 `yeild` 創造生成器
+
+[以著名的 `Fibonacci` 數列為例](https://en.wikipedia.org/wiki/Fibonacci_number)
+
+在循環中不斷的呼叫 `yield` ，就會不斷中斷並返回函數內生成器當前的值
+
+```
+>>> def fib(times):
+...     n = 0
+...     a, b = 0, 1
+...     while n < times:
+...             yield b
+...             a, b = b, a+b
+...             n += 1
+...     return 'done'
+... 
+>>> F = fib(7)
+>>> for x in F:
+...     print(x)
+... 
+1
+1
+2
+3
+5
+8
+13
+```
+
+如果需要拿到函數的返回值，需要捕獲異常 `StopIteration`
+
+```python
+>>> G = fib(7)
+>>> 
+>>> while True:
+...     try:
+...             x = next(G)
+...             print(x)
+...     except StopIteration as e:
+...             print(e)
+...             break
+... 
+1
+1
+2
+3
+5
+8
+13
+done
+```
+
+<br>
+
+#### 用 `send` 對生成器覆值
+
+了解了 `next()` 對生成器的運作之後之後，另一個重要的函數 `send(msg)` 跟 `next()` 的區別在於 ， `send(msg)` 可以傳遞值給 `yeild` 而 `next()` 無法，只能傳 `None`
+
+```python
+>>> def gen():
+...     i = 0
+...     while i < 5:
+...             temp = yield i
+...             print(temp)
+...             i += 1
+... 
+>>> 
+>>> g = gen()
+>>> next(g)
+0
+>>> next(g)
+None
+1
+>>> next(g)
+None
+2
+>>> next(g)
+None
+3
+>>> next(g)
+None
+4
+>>> next(g)
+None
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+```python
+>>> g = gen()
+>>> g.__next__()
+0
+>>> g.send('python')
+python
+1
+>>> g.__next__()
+None
+2
+>>> g.send('python2')
+python2
+3
+>>> g.__next__()
+None
+4
+```
+
+<br><br>
+
+### 閉包 (closure)
+
+<br>
+
+#### 定義閉包函數
+
+在函數內部再定義函數，如果內部函數引用到了外部函數的變量，則可產生閉包。閉包用來在函數與變量之間創建關聯性。
+
+[練習 : 閉包](../closure/closure.py)
+
+<br>
+
+#### 閉包的應用
+
+閉包的存在使用了外部函數的變量，同一個函數傳入不同的變量值，就實現了不同的功能。
+
+[練習 : 閉包二維直線方程式](../closure/closure_application.py)
+
+<br><br>
+
+### 裝飾器 (decorator)
+
+<br>
+
+#### 裝飾器介紹
+
+裝飾器可以在程式執行階段，進行動態的修改，這種行為也稱做 `metaprogramming` 
+
+python 裝飾器用 `＠` 符號對函數進行修飾， `＠func` 是 python 的一種語法糖，其目的是為了能優雅的簡化程式碼。
+
+裝飾器的另一優點是可以在無須修改原函數的情況下，對其加上額外的應用功能
+
+* 引入日誌
+* 函數執行時間統計
+* 執行函數前預備處理
+* 執行函數後清理
+* 權限檢驗
+* 快取
+
+<br>
+
+#### 裝飾器的應用
+
+[練習 : 無參數的被裝飾函數](../decorator/decorator.py)
+
+[練習 : 有參數的被裝飾函數](../decorator/parameter_decorator.py)
+
+[練習 : 有返回值的被裝飾函數](../decorator/has_return_value_decorator.py)
+
+[練習 : 裝飾器帶有參數的被裝飾函數](../decorator/parameter_in_decorator.py)
+
+
+<br><br>
+
+## Python 進階知識
+
+<br><br>
+
+### 模組導入
+
+<br>
+
+
+
+### 作用域
+
+<br>
+
+### 淺複製、深複製
+
+
+<br><br>
+
+## 正規表達式 (regular expression)
+
+<br><br>
+
+### 概述
+
+<br>
+
+正規表達式使用單字串來匹配某個語法規則的字串，在很多文字編輯器裡，正則運算式通常被用來檢索、替換那些符合某個模式的文字。
+
+<br><br>
+
+### `re` 模組的使用
+<br>
+
+```python
+# 导入 re 模块
+import re
+
+# 使用 match 方法进行匹配操作
+result = re.match(正则表达式, 要匹配的字符串)
+
+# 如果上一步匹配到数据的话，可以使用 group 方法来提取数据
+result.group()
+```
+
+``` python
+>>> import re
+>>> result = re.match("itcast", "itcast.cn")
+>>> result.group()
+```
+
+<br><br>
+
+### 字元的匹配
+
+<br>
+
+| 符號   | 功能   |
+| :---: | :---   |
+|   .   | 匹配任意字元 ( 除了 \n )
+|   []  | 匹配 [] 中列舉的字元
+|   \d  | 匹配數字 0 - 9
+|   \D  | 匹配非數字
+|   \s  | 匹配空白， space or tab
+|   \S  | 匹配非空白
+|   \w  | 匹配文字字元， a - z, A - Z, 0 - 9, _
+|   \W  | 匹配非文字字元
+
+<br>
+
+#### 符號 `.`
+
+```python
+>>> import re
+>>> ret = re.match(".", "abc")
+>>> ret.group()
+'a'
+```
+
+<br>
+
+#### 符號 `[]`
+
+```python
+>>> import re
+>>> ret = re.match("[hH]", "hello Python")
+>>> ret.group()
+'h'
+>>> ret = re.match("[0123456789]", "123 hello Python")
+>>> ret.group()
+'1'
+>>> ret = re.match("[0-9]", "123 hello Python")
+>>> ret.group()
+'1'
+```
+
+<br>
+
+#### 符號 `\d`
+
+```python
+>>> import re
+>>> ret = re.match("Team No.\d","Team No.1")
+>>> ret.group()
+'Team No.1'
+>>> ret = re.match("Team No.\d","Team No.2")
+>>> ret.group()
+'Team No.2'
+```
+
+<br><br>
+
+### 原始字串
+
+<br>
+
+與大多數程式語言相同，正規表達式使用 `\` 作為轉義字元，轉義 `\` 就成了一個很大的困擾。 python 中的原生字串解決了這個問題，字串前加上 `r` 表示原生字串，不用擔心是否六寫了反斜線，而寫出來的正規表達式也更直觀
+
+```python
+>>> import re
+>>> ret = re.match("\\a", "\a")
+>>> ret.group()
+'\x07'
+>>> ret = re.match(r"\a", "\a")
+>>> ret.group()
+'\x07'
+```
+
+<br><br>
+
+### 數量的匹配
+
+<br>
+
+
+| 符號   | 功能   |
+| :---: | :---   |
+|   *     | 匹配字元出現 0 次以上
+|   +     | 匹配字元出現 1 次以上
+|   ?     | 匹配字元出現 0 次或 1 次
+|   {m}   | 匹配字元出現 m 次
+|   {m,}  | 匹配字元出現 m 次以上
+|   {m,n} | 匹配字元出現 m 次到 n 次
+
+
+<br>
+
+#### 符號 `*`
+
+```python
+>>> import re
+>>> ret = re.match("[A-Z][a-z]*", "Aabcdef")
+>>> ret.group()
+'Aabcdef'
+```
+
+<br>
+
+#### 符號 `+`
+
+```python
+>>> import re
+>>> ret = re.match("[a-zA-Z_]+[\w_]*", "_name")
+>>> ret.group()
+'_name
+```
+
+<br>
+
+#### 符號 `?`
+
+```python
+>>> import re
+>>> ret = re.match("[1-9]?[0-9]", "0")
+>>> ret.group()
+'0'
+>>> ret = re.match("[1-9]?[0-9]", "11")
+>>> 
+>>> ret.group()
+'11'
+```
+
+<br>
+
+#### 符號 `{m}`
+
+```python
+>>> import re
+>>> ret = re.match("[a-zA-Z0-9_]{6}","12a3g45678")
+>>> ret.group()
+'12a3g4
+```
+
+<br><br>
+
+### 邊界的匹配
+
+<br>
+
+| 符號   | 功能   |
+| :---: | :---   |
+|   ^     | 匹配字串開頭
+|   $     | 匹配字串結尾
+|   \b    | 匹配單字元邊界
+|   \B    | 匹配非單字元邊界
+
+```python
+>>> import re
+>>> ret = re.match("^[\w]{4,20}@gmail\.com$","felix@gmail.com")
+>>> ret.group()
+'felix@gmail.com'
+```
+
+<br><br>
+
+### 匹配的分組
+<br>
+
+| 符號   | 功能   |
+| :---: | :---   |
+|   \|           | 匹配左右任意6一個表達式 
+|   (reg)         | 將括號中字串作為分組
+|   \num         | 引用分組 num 批配到的字串
+|   (?P\<name\>) | 將分組命名
+|   (?P=name)    | 引用命名分組匹配到的字串
+
+<br>
+
+#### 符號 `|`
+
+```python
+>>> import re
+>>> ret = re.match("[1-9]?[0-9]$|100","100")
+>>> ret.group()
+'100'
+>>> ret = re.match("[1-9]?[0-9]$|100","0")
+>>> ret.group()
+'0'
+>>> ret = re.match("[1-9]?[0-9]$|100","10")
+>>> ret.group()
+'10'
+```
+
+<br>
+
+#### 符號 `(reg)`
+
+```python
+>>> import re
+>>> ret = re.match("^(\w{4,20})@(gmail|yahoo|hotmail)\.com$","felix@gmail.com")
+>>> ret.group()
+'felix@gmail.com'
+>>> ret.group(1)
+'felix'
+>>> ret.group(2)
+'gmail'
+```
+
+<br>
+
+#### 符號 `\num`
+
+```python
+>>> import re
+>>> ret = re.match(r"<([a-zA-z]*)>[\w\s!]*</\1>","<html>hello world!</html>")
+>>> ret.group()
+'<html>hello world!</html>'
+>>> ret.group(1)
+'html'
+```
+
+```python
+>>> import re
+>>> ret = re.match(r"<(\w*)><(\w*)>.*</\2></\1>","<html><b>hello world!</b></html>")
+>>> ret.group()
+'<html><b>hello world!</b></html>'
+>>> ret.group(1)
+'html'
+>>> ret.group(2)
+'b'
+```
+
+<br>
+
+#### 符號 `(?P<name>)` and `(?P=name)`
+
+```python
+>>> import re
+>>> ret = re.match(r"<(?P<tag1>\w*)><(?P<tag2>\w*)>.*</(?P=tag2)></(?P=tag1)>","<html><b>hello world!</b></html>")
+>>> ret.group()
+'<html><b>hello world!</b></html>'
+>>> ret.group(1)
+'html'
+>>> ret.group(2)
+'b'
+```
+
+<br><br>
+
+### `re` 模組的進階方法
+
+<br>
+
+#### search
+
+```python
+>>> import re
+>>> ret = re.search(r"\d+", "read : 9999")
+>>> ret.group()
+'9999'
+```
+
+#### findall
+
+```python
+>>> ret = re.findall(r"\d+", "a=1 b=2 c=3 d=4")
+>>> print(ret)
+['1', '2', '3', '4']
+```
+
+#### sub
+
+```python
+>>> ret = re.sub(r"\d+", "10", "a=1 b=2 c=3 d=4")
+>>> print(ret)
+a=10 b=10 c=10 d=10
+```
+
+<br><br>
+
+### 貪婪搜尋
 
 
