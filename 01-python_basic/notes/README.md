@@ -1,4 +1,4 @@
-# Python Basic
+# Python Basic Notes
 <br>
 
 ## 目錄
@@ -38,6 +38,13 @@
     * [方法與屬性](#方法與屬性-method,-attribute)
     * [繼承、封裝、多型](#繼承、封裝、多型)
     * [設計模式](#設計模式-design-pattern)
+* **[異常處理](#異常處理)
+    *
+    *
+* **[模組](#模組-module)
+    *
+    *
+* **[補充](#補充)
 
 
 <br><br>
@@ -1814,11 +1821,11 @@ FileNotFoundError: [Errno 2] No such file or directory: 'test.txt'
 
 <br><br>
 
-### 異常處理
+### 異常處理 (exception handler)
 
 <br>
 
-####單一異常處理
+#### 單一異常處理
 
 此程序看不到任何錯誤，因為用 `except` 處理異常 `IOError`
 
@@ -1833,7 +1840,7 @@ except IOError:
 
 <br>
 
-####多個異常處理
+#### 多個異常處理
 
 將多個異常名字用元組方式處理
 
@@ -1853,7 +1860,7 @@ except (NameError, FileNotFoundError) as e:
 
 <br>
 
-####所有異常處理
+#### 所有異常處理
 
 ```python
 try:
