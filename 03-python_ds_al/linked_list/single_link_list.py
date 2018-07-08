@@ -6,6 +6,7 @@ class Node(object):
 
 #node = Node(10)
 
+
 class SingleLinkList(object):
     """"""
     def __init__(self, node=None):
